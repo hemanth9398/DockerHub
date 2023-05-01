@@ -1,5 +1,5 @@
 pipeline {
-  agent { any }
+  agent {label 'linux' }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
@@ -7,9 +7,15 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('Dockerhub')
   }
   stages {
+    stage('gitclone'){
+      steps{
+        git 'https://github.com/hemanth9398/DockerHub.git'
+
+      }
+    }
     stage('Build') {
       steps {
-        sh 'docker build -t hemanth990/my-app:latest .'
+        sh 'docker build -t hemanth990/DockerHub:latest .'
       }
     }
     stage('Login') {
