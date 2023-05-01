@@ -1,27 +1,31 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello cat'
-            }
-        }
-        stage('world') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-        stage('project') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-        stage('pipeline') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-        
+  agent { label 'linux' }
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('Dockerhub')
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t hemanth990/my-app:latest .'
+      }
     }
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
+    stage('Push') {
+      steps {
+        sh 'docker push hemanth990/my-app:latest'
+      }
+    }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }
