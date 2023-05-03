@@ -15,7 +15,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh 'docker build -t hemanth990/DockerHub:latest .'
+        sh 'docker build -t hemanth990/my-app:latest .'
       }
     }
     stage('Login') {
