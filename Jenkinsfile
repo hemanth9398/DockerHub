@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('gitclone'){
       steps{
-        Git-mac 'https://github.com/hemanth9398/DockerHub.git'
+        git 'https://github.com/hemanth9398/DockerHub.git'
 
       }
     }
