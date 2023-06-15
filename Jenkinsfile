@@ -7,8 +7,7 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('Dockerhub')
   }
   stages {
-  
-    
+   
     stage('Build') {
       steps {
         sh 'docker build -t hemanth990/my-app:latest .'
