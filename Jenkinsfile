@@ -15,7 +15,8 @@ pipeline {
     }
     stage('Login') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        withCredentials([usernamePassword(credentialsId: 'Jenkins-docker', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+            sh "echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin"
       }
     }
     stage('Push') {
