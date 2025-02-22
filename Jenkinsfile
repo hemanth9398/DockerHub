@@ -7,6 +7,11 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('Jenkins-docker')
   }
   stages {
+    stage('Check Docker') {
+      steps {
+        sh 'docker --version'
+        }
+      }
     stage('Build') {
       steps {
         sh 'docker build -t hemanth990/my-app:latest .'
